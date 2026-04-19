@@ -1,9 +1,12 @@
+import os
 from flask import Flask, render_template
 
-app = Flask(__name__)
+# Указываем Flask, где искать папки, чтобы он не терялся на сервере
+app = Flask(__name__, 
+            template_folder='templates', 
+            static_folder='static')
 
-# Теперь каждый демон — это "словарь" с данными
-# Названия файлов картинок пиши ТОЧНО так, как они лежат в папке images
+# Твой список демонов
 demons = [
     {"name": "Thinking Space 2", "img": "thinking_space_2.jpg", "link": "https://youtu.be/CELNmHwln_c?si=L2DfYlm0zWgLt_Nh"},
     {"name": "Flamewall", "img": "flamewall.jpg", "link": "https://youtu.be/x4Io4zkWVRw?si=tTjv7PfTzc4maUEQ"},
@@ -31,5 +34,5 @@ demons = [
 def home():
     return render_template('index.html', list_of_demons=demons)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Для Vercel НЕ НУЖНО писать app.run() внутри условия __main__
+# Мы просто оставляем app доступным для сервера
