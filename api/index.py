@@ -1,9 +1,21 @@
+import os
 from flask import Flask, render_template
 
-# Указываем путь на уровень выше (../), так как файл теперь в папке api
+# Находим путь к текущей папке (api)
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Авто-поиск папок: проверяем внутри api и на уровень выше
+template_dir = os.path.join(base_dir, 'templates')
+if not os.path.exists(template_dir):
+    template_dir = os.path.join(base_dir, '..', 'templates')
+
+static_dir = os.path.join(base_dir, 'static')
+if not os.path.exists(static_dir):
+    static_dir = os.path.join(base_dir, '..', 'static')
+
 app = Flask(__name__, 
-            template_folder='../templates', 
-            static_folder='../static')
+            template_folder=template_dir, 
+            static_folder=static_dir)
 
 demons = [
     {"name": "Thinking Space 2", "img": "thinking_space_2.jpg", "link": "https://youtu.be/CELNmHwln_c?si=L2DfYlm0zWgLt_Nh"},
@@ -31,5 +43,4 @@ demons = [
 @app.route('/')
 def home():
     return render_template('index.html', list_of_demons=demons)
-
-# Важно: для Vercel больше ничего не нужно, никакого app.run()
+            
