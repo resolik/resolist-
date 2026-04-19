@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Resolik List</title>
+    <style>
+        body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; }
+        .container { width: 85%; margin: auto; text-align: center; }
+        
+        .list-item { 
+            background: #1e1e1e; margin: 15px 0; padding: 10px 25px; 
+            border-radius: 12px; border-left: 6px solid #ffff00; 
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 1.2em; box-shadow: 0 6px 12px rgba(0,0,0,0.6);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .list-item:hover {
+            transform: scale(1.02);
+            background: #282828;
+            border-left: 6px solid #ffcc00;
+        }
+
+        /* Стиль для ссылки, чтобы не было синего подчеркивания */
+        .level-link {
+            text-decoration: none;
+            color: inherit;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .rank { color: #ffff00; font-weight: bold; font-size: 1.6em; min-width: 60px; text-align: left; }
+        .level-name { font-weight: 500; transition: color 0.2s; }
+        .level-name:hover { color: #ffff00; }
+        
+        .level-thumb {
+            width: 160px; height: 90px; margin-left: 20px;
+            overflow: hidden; border-radius: 6px; border: 1px solid #444;
+            display: flex; align-items: center; justify-content: center; background: #000;
+        }
+
+        .level-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        h1 { color: #ffcc00; text-transform: uppercase; letter-spacing: 3px; font-size: 3em; margin-bottom: 0; }
+        .subtitle { color: #888; font-size: 0.9em; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RESOLIST</h1>
+        <p class="subtitle">Новый лист. Только проверенные рекорды.</p>
+        
+        {% for demon in list_of_demons %}
+        <div class="list-item">
+            <span class="rank">#{{ loop.index }}</span>
+            
+            <a href="{{ demon.link }}" target="_blank" class="level-link">
+                <span class="level-name">{{ demon.name }}</span>
+            </a>
+            
+            <div style="text-align: right; display: flex; align-items: center;">
+                <span style="color: #666; font-size: 0.7em; text-transform: uppercase;">Extreme demon</span>
+                
+                <div class="level-thumb">
+                    <img src="{{ url_for('static', filename='images/' + demon.img) }}" alt="preview">
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
